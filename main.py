@@ -85,5 +85,4 @@ class Quote(Resource):
 api.add_resource(Quote, "/ai-quotes", "/ai-quotes/", "/ai-quotes/<int:id>")
 if __name__ == '__main__':
     xml_file = load_xml()      
-    d = get_quote_dict(1, xml_file)
     app.run(debug=True)
