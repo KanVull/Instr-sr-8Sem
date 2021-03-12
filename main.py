@@ -6,18 +6,23 @@ import json
 
 def load_xml():
     tree = ET.parse('quotes.xml')
-    return tree.getroot()
+    return tree
 
 def get_quote_dict(id, xml_file):
-    for quote in xml_file:
-        if quote[0].text == str(id):
-            d = {
-                'id': quote[0].text,
-                'author': quote[1].text,
-                'quote': quote[2].text,
-            }
-            return json.dumps(d)
-    return f'Quote with id {id} is not found'    
+    quote = xml_file.find(f"quote[@id='{id}']")
+    if quote is not None:
+        d = {
+            'id': quote.attrib['id'],
+            'author': quote[0].text,
+            'quote': quote[1].text,
+        }
+        return json.dumps(d)
+    else:    
+        return f'Quote with id {id} is not found'    
+
+def write_in_xml(quote):
+    pass
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -25,22 +30,23 @@ api = Api(app)
 class Quote(Resource):
     def get(self, id=0):
         if id == 0:
-            return get_quote_dict(random.randint(1, len(xml_file)), xml_file), 200
+            paragraphs = xml_file.findall('//quote')
+            return get_quote_dict(random.randint(1, len(paragraphs)), xml_file), 200
         quote = get_quote_dict(id, xml_file)
         if quote is not None:    
             return quote, 200
-        return 'Quote not found', 404
+        return f'Quote with id {id} not found', 404
 
 
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('id')
+        parser.add_argument('id', type=int)
         parser.add_argument('author')
         parser.add_argument('quote')
         params = parser.parse_args()
-        for quote in ai_quotes:
-            if(params['id'] == quote['id']):
-                return f'Quote with id {params["id"]} already exists', 400
+        d = get_quote_dict(quote['id'], xml_file)
+        if d is not None:
+            return f'Quote with id {params["id"]} already exists', 400
         quote = {
             'id': params['id'],
             'author': params['author'],
