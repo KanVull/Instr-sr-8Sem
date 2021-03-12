@@ -1,0 +1,18 @@
+<quotes>
+    <quote>
+        <id>1</id>
+        <author>Kevin Kelly</author>
+        <quote_text>The business plans of the next 10,000 startups are easy to forecast. Take X and add AI.</quote_text>
+    </quote>
+    <quote>
+        <id>2</id>
+        <author>Stephen Hawking</author>
+        <quote_text>The development of full artificial intelligence could spell the end of the human race… It would take off on its own, and re-design itself at an ever increasing rate. Humans, who are limited by slow biological evolution, couldn't compete, and would be superseded.
+        </quote_text>
+    </quote>
+    <quote>
+        <id>3</id>
+        <author>Claude Shannon</author>
+        <quote_text>I visualize a time when we will be to robots what dogs are to humans, and I’m rooting for the machines.</quote_text>
+    </quote>
+</quotes>
