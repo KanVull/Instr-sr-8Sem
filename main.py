@@ -18,10 +18,17 @@ def get_quote_dict(id, xml_file):
         }
         return json.dumps(d)
     else:    
-        return f'Quote with id {id} is not found'    
+        return None 
 
-def write_in_xml(quote):
-    pass
+def write_in_xml(quote, xml_file):
+    q = ET.Element('quote')
+    q.set('id', quote['id'])
+    author = ET.SubElement(q, 'author')
+    author.text = quote['author']
+    quote_text = ET.SubElement(q, 'quote_text')
+    quote_text.text = quote['quote']
+    xml_file.append(q)
+    return True
 
 
 app = Flask(__name__)
@@ -42,7 +49,7 @@ class Quote(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int)
         parser.add_argument('author')
-        parser.add_argument('quote')
+        parser.add_argument('quote_text')
         params = parser.parse_args()
         d = get_quote_dict(quote['id'], xml_file)
         if d is not None:
@@ -50,9 +57,9 @@ class Quote(Resource):
         quote = {
             'id': params['id'],
             'author': params['author'],
-            'quote': params['quote'],
+            'quote': params['quote_text'],
         }
-        ai_quotes.append(quote)
+        write_in_xml(quote)
         return quote, 201
 
 
