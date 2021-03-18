@@ -1,3 +1,4 @@
-.vscode
+.vscode/
+Code/.vscode/
 Env/
 __pycache__/
